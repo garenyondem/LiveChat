@@ -1,0 +1,38 @@
+﻿<Page
+    x:Class="LiveChat.UWP.Views.LoginPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:LiveChat.UWP.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid
+        Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <StackPanel
+            MinWidth="250"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Center">
+            <TextBox
+                x:Name="UserNameTextBox"
+                Margin="5"
+                PlaceholderText="username" />
+            <PasswordBox
+                x:Name="PasswordTextBox"
+                PlaceholderText="password"
+                Margin="5" />
+            <Button
+                Click="LoginButton_Click"
+                Margin="5"
+                Content="Login"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch" />
+            <Button
+                Click="NewUserButton_Click"
+                Margin="5"
+                Content="New User"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch" />
+        </StackPanel>
+    </Grid>
+</Page>

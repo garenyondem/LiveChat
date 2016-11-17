@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>f1c8bd97-2e21-43a0-8446-d343810bf5b3</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>LiveChat.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\Config.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Dialog.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\Request.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Interfaces\ISocketService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\LoginCredentials.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\LoginRoot.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Message.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Status.cs" />
+  </ItemGroup>
+</Project>

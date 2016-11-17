@@ -1,0 +1,141 @@
+﻿<!doctype html>
+<html>
+<head>
+    <title>Socket.IO chat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font: 13px Helvetica, Arial;
+        }
+
+        #messagePanel {
+            background: #159f1e;
+            padding: 3px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+            #messagePanel input {
+                border: 0;
+                padding: 10px;
+                width: 85%;
+                margin-right: .5%;
+            }
+
+            #messagePanel button {
+                width: 10%;
+                background: rgb(130, 224, 255);
+                border: none;
+                padding: 10px;
+            }
+
+        #messages {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            margin-top: 3.5em;
+        }
+
+            #messages li {
+                padding: 5px 10px;
+            }
+
+                #messages li:nth-child(odd) {
+                    background: #eee;
+                }
+
+        #configPanel {
+            background: #159f1e;
+            padding: 3px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+        }
+
+            #configPanel input {
+                border: 0;
+                padding: 10px;
+                width: 40%;
+                margin-right: .5%;
+            }
+
+            #configPanel button {
+                width: 10%;
+                background: rgb(130, 224, 255);
+                border: none;
+                padding: 10px;
+            }
+    </style>
+</head>
+<body>
+    <form id="configPanel" action="">
+        <input id="userId" autocomplete="off" placeholder="userId" />
+        <input id="orderId" autocomplete="off" placeholder="orderId" />
+        <button>Set</button>
+    </form>
+    <ul id="messages"></ul>
+    <form id="messagePanel" action="">
+        <input id="messageBox" autocomplete="off" placeholder="new message" />
+        <button>Send</button>
+    </form>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+        window.onload = function () {
+            var socket = io(),
+                configPanel = $('#configPanel'),
+                messagePanel = $('#messagePanel'),
+                messageBox = $('#messageBox'),
+                userIdBox = $('#userId'),
+                orderIdBox = $('#orderId'),
+                messages = $('#messages'),
+                userId = undefined,
+                orderId = undefined,
+                threadKey = undefined,
+                threadId = undefined;
+
+            configPanel.submit(function () {
+                userId = userIdBox.val();
+                orderId = orderIdBox.val();
+                if (!userId || !orderId) {
+                    alert('userId and orderId can\'t be empty.');
+                    return false;
+                }
+                threadKey = userId + '-' + orderId;
+                socket.emit('subscribe', threadKey);
+                messageBox.val('');
+                return false;
+            });
+            socket.on('thread_data', function (_threadId) {
+                threadId = _threadId;
+            });
+
+
+            messagePanel.submit(function () {
+                var message = messageBox.val();
+                if (!threadId || !userId || !orderId || !message) {
+                    alert('In order to send messages, you should set userId and orderId.');
+                    return false;
+                }
+                socket.emit('new_message', {
+                    'threadId': threadId,
+                    'message': message,
+                    'userId': userId,
+                    'orderId': orderId
+                });
+                messageBox.val('');
+                return false;
+            });
+            socket.on('message_sent', function (data) {
+                messages.append($('<li>').text(data.userId + ' : ' + data.message));
+            });
+        }
+    </script>
+</body>
+</html>
